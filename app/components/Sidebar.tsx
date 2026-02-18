@@ -7,14 +7,13 @@ const Sidebar = () => {
     { label: 'Education', href: '#education' },
     { label: 'Skills', href: '#skills' },
     { label: 'Projects', href: '#projects' },
-    { label: 'More', href: '#more' },
   ];
 
   return (
-    <nav className="bg-indigo-700 lg:fixed lg:h-screen lg:w-72 flex flex-col items-center justify-center p-6 text-center z-50">
+    <nav className="bg-sky-700 lg:fixed lg:h-screen lg:w-72 flex flex-col items-center justify-center p-6 text-center z-50">
       {/* Brand / Profile Image (Chỉ hiện trên màn hình lớn) */}
       <Link href="#page-top" className="hidden lg:block mb-10 group">
-        <div className="w-40 h-40 rounded-full border-[8px] border-indigo-800 overflow-hidden mx-auto shadow-2xl transition-transform duration-300 group-hover:scale-105">
+        <div className="w-40 h-40 rounded-full border-[8px] border-sky-800 overflow-hidden mx-auto shadow-2xl transition-transform duration-300 group-hover:scale-105">
           <Image
             src="/assets/img/IMG_20240220_164308.jpg"
             alt="Võ Nguyễn Nhật Khương"
@@ -42,7 +41,7 @@ const Sidebar = () => {
             <li key={item.label}>
               <Link 
                 href={item.href}
-                className="text-indigo-100 hover:text-white text-sm font-bold uppercase tracking-[0.15em] transition-colors duration-200 block"
+                className="text-sky-100 hover:text-white text-sm font-bold uppercase tracking-[0.15em] transition-colors duration-200 block"
               >
                 {item.label}
               </Link>

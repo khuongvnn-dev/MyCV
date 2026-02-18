@@ -12,7 +12,7 @@ const Education = () => {
           <p className="text-gray-500 italic">Chương trình đại học 4 năm tập trung vào lập trình Java</p>
         </div>
         <div className="mt-2 md:mt-0">
-          <span className="text-indigo-600 font-bold text-lg">2021 - Dự kiến 2025</span>
+          <span className="text-sky-600 font-bold text-lg">2021 - Dự kiến 2025</span>
         </div>
       </div>
     </section>

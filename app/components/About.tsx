@@ -6,25 +6,25 @@ const About = () => {
       <div className="space-y-6">
         {/* Name Heading */}
         <h1 className="text-5xl md:text-7xl font-extrabold uppercase leading-tight">
-          Võ Nguyễn Nhật <span className="text-indigo-600">Khương</span>
+          Võ Nguyễn Nhật <span className="text-sky-600">Khương</span>
         </h1>
         
         <h2 className="text-2xl font-medium text-gray-500 lowercase">
-          or <span className="text-indigo-600 uppercase font-bold">Kieran</span>
+          or <span className="text-sky-600 uppercase font-bold">Kieran</span>
         </h2>
 
         {/* Contact Info */}
         <div className="text-lg text-gray-600 space-y-2 uppercase tracking-wide">
           <p className="flex items-center">
-            <span className="mr-3 text-indigo-600"><i className="fas fa-map-marker-alt"></i></span>
+            <span className="mr-3 text-sky-600"><i className="fas fa-map-marker-alt"></i></span>
             Tan Lap 1 Street, District 9, Thu Duc City, Vietnam
           </p>
           <p className="flex items-center">
-            <span className="mr-3 text-indigo-600"><i className="fas fa-phone-alt"></i></span>
+            <span className="mr-3 text-sky-600"><i className="fas fa-phone-alt"></i></span>
             (+84) 915-870-683
           </p>
-          <p className="flex items-center text-indigo-600 lowercase">
-            <span className="mr-3 text-indigo-600"><i className="fas fa-envelope"></i></span>
+          <p className="flex items-center text-sky-600 lowercase">
+            <span className="mr-3 text-sky-600"><i className="fas fa-envelope"></i></span>
             <a href="mailto:vnnkhuong@gmail.com" className="hover:underline">vnnkhuong@gmail.com</a>
           </p>
         </div>
@@ -66,7 +66,7 @@ const About = () => {
               href={social.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-12 h-12 bg-gray-800 text-white rounded-full flex items-center justify-center hover:bg-indigo-600 transition-colors"
+              className="w-12 h-12 bg-gray-800 text-white rounded-full flex items-center justify-center hover:bg-sky-600 transition-colors"
             >
               <i className={social.icon}></i>
             </a>

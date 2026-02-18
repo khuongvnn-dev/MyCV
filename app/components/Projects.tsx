@@ -5,14 +5,14 @@ const ProjectItem = ({ title, description, members, tech, link, responsibilities
     <div className="flex items-center mb-2">
       <h3 className="text-2xl font-bold uppercase mr-4">{title}</h3>
       {link && (
-        <a href={link} target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:text-indigo-800 transition-colors">
+        <a href={link} target="_blank" rel="noopener noreferrer" className="text-sky-600 hover:text-sky-800 transition-colors">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
             <path d="M11 17H7q-2.075 0-3.537-1.463T2 12q0-2.075 1.463-3.537T7 7h4v2H7q-1.25 0-2.125.875T4 12q0 1.25.875 2.125T7 15h4zm-3-4v-2h8v2zm5 4v-2h4q1.25 0 2.125-.875T20 12q0-1.25-.875-2.125T17 9h-4V7h4q2.075 0 3.538 1.463T22 12q0 2.075-1.463 3.538T17 17z" />
           </svg>
         </a>
       )}
     </div>
-    {status && <span className="text-sm font-semibold text-indigo-600 uppercase tracking-wider">{status}</span>}
+    {status && <span className="text-sm font-semibold text-sky-600 uppercase tracking-wider">{status}</span>}
     
     <div className="mt-4 grid grid-cols-1 md:grid-cols-4 gap-4 border-t border-gray-100 pt-4">
       <div className="font-bold text-gray-600">Description</div>
@@ -33,7 +33,7 @@ const ProjectItem = ({ title, description, members, tech, link, responsibilities
       <div className="font-bold text-gray-600">Technology</div>
       <div className="md:col-span-3 flex flex-wrap gap-2">
         {tech.map((t: string, idx: number) => (
-          <span key={idx} className="bg-indigo-50 text-indigo-700 px-3 py-1 rounded-full text-sm font-medium border border-indigo-100">
+          <span key={idx} className="bg-sky-50 text-sky-700 px-3 py-1 rounded-full text-sm font-medium border border-sky-100">
             {t}
           </span>
         ))}

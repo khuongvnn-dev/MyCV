@@ -25,13 +25,13 @@ const Skills = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
         {skillCategories.map((cat, idx) => (
           <div key={idx} className="space-y-4">
-            <h3 className="text-xl font-bold uppercase tracking-wide text-gray-600 border-b-2 border-indigo-100 pb-2">
+            <h3 className="text-xl font-bold uppercase tracking-wide text-gray-600 border-b-2 border-sky-100 pb-2">
               {cat.title}
             </h3>
             <ul className="grid grid-cols-2 gap-2 text-gray-700">
               {cat.items.map((skill, sIdx) => (
                 <li key={sIdx} className="flex items-center capitalize">
-                  <span className="mr-2 text-indigo-500 text-xs">●</span>
+                  <span className="mr-2 text-sky-500 text-xs">●</span>
                   {skill}
                 </li>
               ))}
@@ -43,7 +43,7 @@ const Skills = () => {
       <div className="mt-10">
         <h3 className="text-xl font-bold uppercase text-gray-600 mb-2">English</h3>
         <p className="text-gray-700 flex items-center">
-          <span className="mr-2 text-indigo-500">●</span> Basic communication
+          <span className="mr-2 text-sky-500">●</span> Basic communication
         </p>
       </div>
     </section>
