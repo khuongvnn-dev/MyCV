@@ -1187,10 +1187,14 @@
     <script src="js/scripts.js"></script>
     <script src="js/jquery-4.0.0.min.js"></script>
     <script>
-      $(document).ready(function () {
+      $(document).ready(async function () {
         var mySheet =
           "https://docs.google.com/spreadsheets/d/e/2PACX-1vRXQ0MGYDvco1BTfek6Z3xgQMqEp6s1bKqF8y0qmvoYMxKl_GakGnRUQlp0UpWnv9b-Fj3FVdkQkG_0/pubhtml?gid=0&single=true";
-        loadGoogleSheetData(mySheet);
+
+        var languageCode = getLanguageCode();
+        console.log("languageCode: ", languageCode);
+        await loadGoogleSheetData(mySheet);
+        createNavBar(languageCode);
       });
     </script>
   </body>
