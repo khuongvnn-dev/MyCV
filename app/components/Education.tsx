@@ -1,6 +1,6 @@
 const Education = () => {
   return (
-    <section id="education" className="py-10">
+    <section id="education" className="py-10 scroll-mt-14 lg:scroll-mt-0">
       <h2 className="text-4xl font-bold uppercase mb-10">Education</h2>
       
       <div className="flex flex-col md:flex-row justify-between items-start mb-8">

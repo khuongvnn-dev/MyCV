@@ -1,4 +1,3 @@
-import React from 'react'
 import Sidebar from '../components/Sidebar'
 import About from '../components/About'
 import Education from '../components/Education'
@@ -10,7 +9,7 @@ const PortfolioPage = () => {
     <div className="flex flex-col lg:flex-row min-h-screen bg-white">
      <Sidebar />
 
-     <main className="flex-1 lg:ml-72 p-6 lg:p-12 space-y-20">
+     <main className="flex-1 lg:ml-72 p-6 lg:p-12 space-y-20 mt-16 lg:mt-0">
         <About />
         <hr className="border-gray-200" />
         <Education />

@@ -19,7 +19,7 @@ const Skills = () => {
   ];
 
   return (
-    <section id="skills" className="py-10">
+    <section id="skills" className="py-10 scroll-mt-14 lg:scroll-mt-0">
       <h2 className="text-4xl font-bold uppercase mb-10">Skills</h2>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">

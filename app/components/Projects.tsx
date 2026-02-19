@@ -72,7 +72,7 @@ const Projects = () => {
   ];
 
   return (
-    <section id="projects" className="py-10">
+    <section id="projects" className="py-10 scroll-mt-14 lg:scroll-mt-0">
       <h2 className="text-4xl font-bold uppercase mb-12">Projects</h2>
       {projectsData.map((project, idx) => (
         <ProjectItem key={idx} {...project} />
