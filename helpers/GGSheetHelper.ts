@@ -12,7 +12,9 @@ export const parseCSV = (csvText: string): GGSheetData[] => {
     const line = lines[i];
     if (!line) continue;
 
-    const rowData = line.split(",").map((val) => val.trim());
+    const rowData = line
+      .split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/)
+      .map((val) => val.replace(/^"|"$/g, "").trim());
 
     if (rowData.length >= 4) {
       result.push({
@@ -46,4 +48,13 @@ export const getDataByKey = (
   }
 
   return searchKey;
+};
+
+/**
+ * Cleans a JSON string by replacing double quotes ("") with a single quote (")
+ * @param str The input JSON string to be cleaned
+ * @returns A cleaned JSON string with redundant double quotes removed
+ */
+export const cleanJsonStr = (str: string): string => {
+  return str.replace(/""/g, '"');
 };
