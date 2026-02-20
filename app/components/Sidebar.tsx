@@ -19,7 +19,7 @@ const Sidebar = () => {
 
   const navItems = {
     about: "h-about",
-    education: "h-education",
+    background: "h-background",
     skills: "h-skills",
     projects: "h-projects"
   }
