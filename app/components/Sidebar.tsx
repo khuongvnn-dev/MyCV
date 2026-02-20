@@ -20,7 +20,6 @@ const Sidebar = () => {
   const navItems = {
     about: "h-about",
     background: "h-background",
-    skills: "h-skills",
     projects: "h-projects"
   }
 

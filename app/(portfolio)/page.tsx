@@ -38,8 +38,8 @@ const PortfolioPage = () => {
         <hr className="border-gray-200" />
         <Education />
         <hr className="border-gray-200" />
-        <Skills />
-        <hr className="border-gray-200" />
+        {/* <Skills />
+        <hr className="border-gray-200" /> */}
         <Projects />
       </main>
     </div>
