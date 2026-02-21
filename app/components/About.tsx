@@ -9,9 +9,9 @@ import Markdown from "react-markdown";
 const About = () => {
 
   const [isShowResume, setIsShowResume] = useState(false)
-  const { data, loading } = useSelector((state: RootState) => state.google_sheet);
+  const { data, loading, language } = useSelector((state: RootState) => state.google_sheet);
 
-  const t = (key: string) => getDataByKey(data, 'vi', key);
+  const t = (key: string) => getDataByKey(data, language, key);
 
   const fullname = () => {
     if (!loading) {
@@ -31,7 +31,7 @@ const About = () => {
 
   const overviewSocial = () => {
     if (!loading && data && data.length > 0) {
-      const rawValue = getDataByKey(data, 'vi', 'o-social');
+      const rawValue = t('o-social');
 
       if (!rawValue || rawValue === 'o-social') {
         console.warn("Không tìm thấy dữ liệu cho key: o-social");
@@ -82,11 +82,11 @@ const About = () => {
         <div className="text-lg text-gray-600 space-y-2 uppercase tracking-wide">
           <p className="flex items-center">
             <LucideIcons.MapPin className="mr-3 text-sky-600" size={20} />
-            <a href="#" title={`Địa chỉ: ${t('address')}`}>{t('address')}</a>
+            <a href="#" title={`${language=='en'?'Address': 'Địa chỉ'}: ${t('address')}`}>{t('address')}</a>
           </p>
           <p className="flex items-center">
             <LucideIcons.Phone className="mr-3 text-sky-600" size={20} />
-            <a href={`tel:${t('phone')}`} className="hover:underline" title={`Số điện thoại: ${t('phone')}`}>{t('phone')}</a>
+            <a href={`tel:${t('phone')}`} className="hover:underline" title={`${language=='en'?'Phone': 'Số điện thoại'}: ${t('phone')}`}>{t('phone')}</a>
           </p>
           <p className="flex items-center text-sky-600 lowercase">
             <LucideIcons.Mail className="mr-3 text-sky-600" size={20} />

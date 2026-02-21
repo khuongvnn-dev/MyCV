@@ -12,8 +12,8 @@ const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('about');
 
-  const { data } = useSelector((state: RootState) => state.google_sheet);
-  const t = (key: string) => getDataByKey(data, 'vi', key);
+  const { data, language } = useSelector((state: RootState) => state.google_sheet);
+  const t = (key: string) => getDataByKey(data, language, key);
 
   const navItems = {
     about: "h-about",

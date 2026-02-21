@@ -7,6 +7,7 @@ import Markdown from 'react-markdown';
 interface TreeViewProps {
     items: TreeItem[];
     title?: string;
+    language?: "en" | "vi";
 }
 
 // Helper để chuyển đổi chuỗi ngày tháng linh hoạt sang Date object để so sánh
@@ -29,7 +30,7 @@ const parseFlexibleDate = (dateStr: string): Date => {
     return isNaN(parsed.getTime()) ? new Date(0) : parsed;
 };
 
-const TreeView = ({ items, title = "Dòng thời gian" }: TreeViewProps) => {
+const TreeView = ({ items, title = "Dòng thời gian" , language = "en"}: TreeViewProps) => {
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
 
     const sortedData = useMemo(() => {
@@ -61,7 +62,7 @@ const TreeView = ({ items, title = "Dòng thời gian" }: TreeViewProps) => {
                     className="flex items-center gap-2 px-4 py-2 bg-gray-50 hover:bg-sky-50 text-gray-600 hover:text-sky-700 rounded-xl transition-all text-sm font-semibold border border-gray-200"
                 >
                     {sortOrder === 'asc' ? <SortAsc size={18} /> : <SortDesc size={18} />}
-                    {sortOrder === 'asc' ? "Cũ nhất" : "Mới nhất"}
+                    {sortOrder === 'asc' ? (language === 'en' ? "Oldest" : "Cũ nhất") : (language === 'en' ? "Newest" : "Mới nhất")}
                 </button>
             </div>
 
@@ -71,6 +72,7 @@ const TreeView = ({ items, title = "Dòng thời gian" }: TreeViewProps) => {
                         key={node.id}
                         node={node}
                         isLast={idx === sortedData.length - 1}
+                        language={language}
                     />
                 ))}
             </div>
@@ -78,7 +80,7 @@ const TreeView = ({ items, title = "Dòng thời gian" }: TreeViewProps) => {
     );
 };
 
-const TreeNode = ({ node, isLast }: { node: TreeItem; isLast: boolean }) => {
+const TreeNode = ({ node, isLast, language }: { node: TreeItem; isLast: boolean; language?: "en" | "vi" }) => {
     const [isExpanded, setIsExpanded] = useState(true);
     const hasChildren = node.children && node.children.length > 0;
 
@@ -115,7 +117,7 @@ const TreeNode = ({ node, isLast }: { node: TreeItem; isLast: boolean }) => {
                         <Calendar className="w-3.5 h-3.5 mr-1.5" />
                         <span>{node.startDate}</span>
                         <span className="mx-1.5">-</span>
-                        <span>{node.endDate || "Hiện tại"}</span>
+                        <span>{node.endDate || (language === 'en' ? "Present" : "Hiện tại")}</span>
                     </div>
                 </div>
 
@@ -160,7 +162,7 @@ const TreeNode = ({ node, isLast }: { node: TreeItem; isLast: boolean }) => {
     );
 };
 
-const ProjectLinks = ({ links }: { links: { [key: string]: string } }) => {
+const ProjectLinks = ({ links, language = "en" }: { links: { [key: string]: string }; language?: "en" | "vi" }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     if (!links || Object.keys(links).length === 0) return null;
@@ -190,7 +192,7 @@ const ProjectLinks = ({ links }: { links: { [key: string]: string } }) => {
                 className="flex items-center gap-2 text-sky-600 hover:text-sky-800 font-bold transition-colors uppercase text-sm"
             >
                 <Link size={18} />
-                Liên kết ({Object.keys(links).length})
+                {language === 'en' ? "Links" : "Liên kết"} ({Object.keys(links).length})
                 <ChevronDown size={14} className={`transition-transform ${isOpen ? 'rotate-180' : ''}`} />
             </button>
 

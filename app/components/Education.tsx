@@ -5,9 +5,9 @@ import { useSelector } from "react-redux";
 
 const Education = () => {
 
-  const { data, loading } = useSelector((state: RootState) => state.google_sheet);
+  const { data, loading, language } = useSelector((state: RootState) => state.google_sheet);
 
-  const t = (key: string) => getDataByKey(data, 'vi', key);
+  const t = (key: string) => getDataByKey(data, language, key);
   
   const careerPath = () => {
     if (!loading && data && data.length > 0) {
