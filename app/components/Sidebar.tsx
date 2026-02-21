@@ -1,20 +1,18 @@
 'use client'
 import { getDataByKey } from '@/helpers/GGSheetHelper';
-import { fetchSheetData } from '@/lib/gg_sheet/sheetSlice';
-import { AppDispatch, RootState } from '@/lib/store';
+import { RootState } from '@/lib/store';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import Spinner from './Spinner';
 import clsx from 'clsx';
 
 const Sidebar = () => {
 
   const [isOpen, setIsOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('about');
 
-  const { data, loading } = useSelector((state: RootState) => state.google_sheet);
-
+  const { data } = useSelector((state: RootState) => state.google_sheet);
   const t = (key: string) => getDataByKey(data, 'vi', key);
 
   const navItems = {
@@ -23,8 +21,34 @@ const Sidebar = () => {
     projects: "h-projects"
   }
 
-  const handleLinkClick = () => {
+  useEffect(() => {
+    const observerOptions = {
+      root: null,
+      rootMargin: '-20% 0px -70% 0px',
+      threshold: 0
+    };
+
+    const handleIntersect = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(handleIntersect, observerOptions);
+
+    Object.keys(navItems).forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, [navItems]);
+
+  const handleLinkClick = (id: string) => {
     setIsOpen(false);
+    setActiveSection(id);
   }
 
   return (
@@ -82,8 +106,13 @@ const Sidebar = () => {
             <li key={key}>
               <Link
                 href={`#${key}`}
-                className="text-sky-100 hover:text-white text-sm font-bold uppercase tracking-[0.15em] transition-colors duration-200 block py-2 lg:py-0"
-                onClick={handleLinkClick}
+                className={clsx(
+                  `text-sky-100 hover:text-white text-sm font-bold uppercase tracking-[0.15em] transition-colors duration-200 block py-2 lg:py-0 `,
+                  activeSection === key
+                    ? "text-white font-black scale-110"
+                    : "text-sky-100 font-bold hover:text-white"
+                )}
+                onClick={() => handleLinkClick(key)}
               >
                 {t(searchKey)}
               </Link>
