@@ -4,6 +4,7 @@ import * as LucideIcons from 'lucide-react';
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import Modal from "./Modal";
+import Markdown from "react-markdown";
 
 const About = () => {
 
@@ -25,30 +26,47 @@ const About = () => {
     }
   }
 
-  //#region Lấy dữ liệu overview-detail và parse JSON
-  let overviewDetail: any = [];
+  //#region Lấy dữ liệu o-social và parse JSON
+  let overviewSocials: any = [];
 
-  const overviewDetailt = () => {
+  const overviewSocial = () => {
     if (!loading && data && data.length > 0) {
-      const rawValue = getDataByKey(data, 'vi', 'overview-detail');
+      const rawValue = getDataByKey(data, 'vi', 'o-social');
 
-      if (!rawValue || rawValue === 'overview-detail') {
-        console.warn("Không tìm thấy dữ liệu cho key: overview-detail");
+      if (!rawValue || rawValue === 'o-social') {
+        console.warn("Không tìm thấy dữ liệu cho key: o-social");
         return [];
       }
 
       const cleaned = cleanJsonStr(rawValue);
-      console.debug("Dữ liệu overview-detail sau khi làm sạch:", cleaned);
       try {
-        overviewDetail = JSON.parse(cleaned)
+        overviewSocials = JSON.parse(cleaned)
       } catch (err) {
         console.error("Lỗi khi parse JSON:", err);
       }
     }
   }
 
-  overviewDetailt();
+  overviewSocial();
   //#endregion
+
+  const overviewDetail = () => {
+  if (!loading) {
+    const rawValue = t('o-detail');
+    if (!rawValue || rawValue === 'o-detail') return "";
+
+    try {
+      // cleanJsonStr sẽ dọn dẹp các dấu ngoặc kép dư của CSV, 
+      // sau đó JSON.parse sẽ biến \\n thành xuống dòng thực tế.
+      return JSON.parse(cleanJsonStr(rawValue));
+    } catch (err) {
+      console.error("Lỗi khi parse overviewDetail:", err);
+      // Fallback: thay thế thủ công nếu parse lỗi
+      return rawValue.replace(/\\n/g, '\n').replace(/^"|"$/g, '');
+    }
+  }
+  return "";
+};
 
   return (
     <section id="about" className="py-10 scroll-mt-14 lg:scroll-mt-0">
@@ -79,32 +97,16 @@ const About = () => {
         {/* Overview */}
         <div className="mt-10 space-y-6">
           <h3 className="text-3xl font-bold uppercase tracking-tighter">{t('overview')}</h3>
-          <div className="grid md:grid-cols-2 gap-8 text-gray-700">
-            {/* <div>
-              <h4 className="font-bold text-xl mb-3">Programming Skills</h4>
-              <ul className="list-disc list-inside space-y-1">
-                <li><b>3+ years</b> kinh nghiệm làm việc với <b>Java</b></li>
-                <li>Kinh nghiệm làm việc với <b>Unix</b> (Ubuntu/Debian)</li>
-                <li>Kỹ năng giao tiếp và học hỏi tốt</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-bold text-xl mb-3">Technical Skills</h4>
-              <ul className="list-disc list-inside space-y-1">
-                <li>Thành thạo Java core, Cấu trúc dữ liệu</li>
-                <li>Phát triển Web: HTML, CSS, JS, Tailwind, Bootstrap</li>
-                <li>Frameworks: Spring Boot, React Native, jQuery</li>
-                <li>Công nghệ: Docker, Machine Learning (training & deploying)</li>
-              </ul>
-            </div> */}
+          <div className="text-gray-700 prose prose-sky max-w-none">
+            <Markdown>{overviewDetail()}</Markdown>
           </div>
         </div>
 
         {/* Social Icons */}
         <div className="flex space-x-4 pt-6">
-          {Array.isArray(overviewDetail)
-            && overviewDetail.length > 0 &&
-            overviewDetail.map((item: any, idx: number) => {
+          {Array.isArray(overviewSocials)
+            && overviewSocials.length > 0 &&
+            overviewSocials.map((item: any, idx: number) => {
               const IconComponent = (LucideIcons as any)[item.icon] || LucideIcons.HelpCircle;
               return <a
                 key={idx}
