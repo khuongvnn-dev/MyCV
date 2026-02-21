@@ -4,16 +4,26 @@ import About from '../components/About'
 import Education from '../components/Education'
 import Skills from '../components/Skills'
 import Projects from '../components/Projects'
-import { fetchSheetData } from '@/lib/gg_sheet/sheetSlice'
+import { fetchSheetData, setLanguage } from '@/lib/gg_sheet/sheetSlice'
 import { useEffect } from 'react'
 import { AppDispatch, RootState } from '@/lib/store'
 import { useDispatch, useSelector } from 'react-redux'
 import Spinner from '../components/Spinner'
+import { useUserAnalytics } from '@/services/hooks/useUserAnalytics'
 
 const PortfolioPage = () => {
 
   const dispatch = useDispatch<AppDispatch>();
   const { data, loading } = useSelector((state: RootState) => state.google_sheet);
+
+  const analytics = useUserAnalytics();
+
+  useEffect(() => {
+    if (analytics) {
+      const detectedLang = analytics.language.startsWith('vi') ? 'vi' : 'en';
+      dispatch(setLanguage(detectedLang));
+    }
+  }, [analytics, dispatch]);
 
   useEffect(() => {
     if (data.length === 0) {

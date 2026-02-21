@@ -5,11 +5,13 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 interface SheetState {
   data: GGSheetData[];
   loading: boolean;
+  language: "en" | "vi";
 }
 
 const initialState: SheetState = {
   data: [],
   loading: false,
+  language: "en",
 };
 
 export const fetchSheetData = createAsyncThunk(
@@ -24,7 +26,11 @@ export const fetchSheetData = createAsyncThunk(
 const sheetSlice = createSlice({
   name: "google_sheet",
   initialState,
-  reducers: {},
+  reducers: {
+    setLanguage: (state, action: PayloadAction<"en" | "vi">) => {
+      state.language = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchSheetData.pending, (state) => {
@@ -43,4 +49,5 @@ const sheetSlice = createSlice({
   },
 });
 
+export const { setLanguage } = sheetSlice.actions;
 export default sheetSlice.reducer;
