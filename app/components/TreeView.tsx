@@ -1,7 +1,8 @@
 'use client'
 import React, { useMemo, useState } from 'react';
-import { Calendar, ChevronDown, ChevronRight, SortAsc, SortDesc, Clock } from 'lucide-react';
+import { Calendar, ChevronDown, ChevronRight, SortAsc, SortDesc, Clock, Link } from 'lucide-react';
 import { TreeItem } from '@/types/TreeItem';
+import Markdown from 'react-markdown';
 
 interface TreeViewProps {
     items: TreeItem[];
@@ -94,7 +95,7 @@ const TreeNode = ({ node, isLast }: { node: TreeItem; isLast: boolean }) => {
             {/* Nội dung bên phải */}
             <div className="flex-1 pb-10">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-3">
-                    <div className="flex items-center gap-2">
+                    <div className="flex lg:flex-row flex-col items-start lg:items-center gap-2">
                         <h4
                             className="text-lg font-bold text-gray-800 hover:text-sky-600 cursor-pointer transition-colors"
                             onClick={() => setIsExpanded(!isExpanded)}
@@ -106,6 +107,7 @@ const TreeNode = ({ node, isLast }: { node: TreeItem; isLast: boolean }) => {
                                 {isExpanded ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
                             </button>
                         )}
+                        {node.link && <ProjectLinks links={node.link} />}
                     </div>
 
                     {/* Badge thời gian linh hoạt */}
@@ -119,15 +121,27 @@ const TreeNode = ({ node, isLast }: { node: TreeItem; isLast: boolean }) => {
 
                 {/* Description & Sub-description */}
                 <div className="space-y-2">
-                    <p className="text-gray-600 text-[15px] leading-relaxed italic">
-                        {node.description ?? node.title}
-                    </p>
+                    {node.description && (
+                        <p className="text-gray-600 text-[15px] leading-relaxed italic">
+                            {node.description}
+                        </p>
+                    )}
                     {node.subDescription && (
                         <p className="text-gray-400 text-sm font-medium leading-relaxed italic">
                             {node.subDescription}
                         </p>
                     )}
                 </div>
+
+                {/* Markdown (nếu có) */}
+                {node.markdown && (
+                    <div className="prose prose-sky prose-sm max-w-none text-gray-600">
+                        <Markdown>{node.markdown}</Markdown>
+                    </div>
+                )}
+
+                {/* Badget */}
+                {node.badget && node.badget.length > 0 && <Badget tags={node.badget} />}
 
                 {/* Children (Đệ quy) */}
                 {hasChildren && isExpanded && (
@@ -142,6 +156,79 @@ const TreeNode = ({ node, isLast }: { node: TreeItem; isLast: boolean }) => {
                     </div>
                 )}
             </div>
+        </div>
+    );
+};
+
+const ProjectLinks = ({ links }: { links: { [key: string]: string } }) => {
+    const [isOpen, setIsOpen] = useState(false);
+
+    if (!links || Object.keys(links).length === 0) return null;
+
+    // Nếu chỉ có 1 link: Mở trực tiếp
+    if (Object.keys(links).length === 1) {
+        const [label, url] = Object.entries(links)[0];
+        return (
+            <a
+                href={url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-sky-600 hover:text-sky-800 font-bold transition-colors"
+            >
+                <Link size={18} />
+                <span className="uppercase text-sm">{label}</span>
+            </a>
+        );
+    }
+
+    // Nếu có nhiều link: Hiển thị Dropdown
+    return (
+        <div className="relative inline-block text-left">
+            <button
+                onClick={() => setIsOpen(!isOpen)}
+                onBlur={() => setTimeout(() => setIsOpen(false), 200)}
+                className="flex items-center gap-2 text-sky-600 hover:text-sky-800 font-bold transition-colors uppercase text-sm"
+            >
+                <Link size={18} />
+                Liên kết ({Object.keys(links).length})
+                <ChevronDown size={14} className={`transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+            </button>
+
+            {isOpen && (
+                <div className="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20">
+                    <div className="py-1">
+                        {Object.entries(links).map(([key, value]) => {
+                            return (
+                                <a
+                                    key={key}
+                                    href={value}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-sky-50 hover:text-sky-700 transition-colors"
+                                >
+                                    <Link size={16} />
+                                    {key}
+                                </a>
+                            );
+                        })}
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+};
+
+const Badget = ({ tags }: { tags: string[] }) => {
+    return (
+        <div className="flex flex-wrap gap-2 mt-3">
+            {tags.map((tag, idx) => (
+                <span
+                    key={idx}
+                    className="px-3 py-1 bg-sky-100 text-sky-800 text-xs font-medium rounded-full"
+                >
+                    {tag}
+                </span>
+            ))}
         </div>
     );
 };

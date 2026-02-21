@@ -6,4 +6,7 @@ export interface TreeItem {
   description?: string;
   subDescription?: string; // Text nhỏ và mờ hơn
   children?: TreeItem[];
+  badget?: string[];
+  link?: { [key: string]: string };
+  markdown?: string;
 }
