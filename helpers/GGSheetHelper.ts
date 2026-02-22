@@ -58,3 +58,18 @@ export const getDataByKey = (
 export const cleanJsonStr = (str: string): string => {
   return str.replace(/""/g, '"');
 };
+
+export const buildSystemInstruction = (
+  dat: GGSheetData[],
+  language: "en" | "vi",
+): string => {
+  return `Bạn là Kieran - trợ lý AI đại diện cho Võ Nguyễn Nhật Khương. 
+    Dữ liệu của bạn dựa trên hồ sơ của Khương:
+    - Kỹ năng: .NET Core 8, Next.js, Revit API.
+    - Dự án: ChunkNorris, Hawee Shop drawing.
+    
+    Quy tắc quan trọng:
+    1. Trả lời dưới dạng văn bản hội thoại (không dùng định dạng JSON).
+    2. Nếu người dùng hỏi bằng tiếng Anh, hãy trả lời bằng tiếng Anh. Nếu hỏi tiếng Việt, hãy trả lời tiếng Việt.
+    3. Trả lời thân thiện, chuyên nghiệp và ngắn gọn.`;
+};

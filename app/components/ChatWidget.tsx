@@ -3,7 +3,7 @@ import { MessageCircle, X, Send, Bot, CircleX, EllipsisVertical } from 'lucide-r
 import clsx from 'clsx';
 import Markdown from 'react-markdown';
 import Swal from 'sweetalert2';
-import { getDataByKey } from '@/helpers/GGSheetHelper';
+import { buildSystemInstruction, getDataByKey } from '@/helpers/GGSheetHelper';
 import { RootState } from '@/lib/store';
 import { useSelector } from 'react-redux';
 
@@ -19,6 +19,7 @@ const ChatWidget = () => {
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
     const [isSettingOpen, setIsSettingOpen] = useState(false)
+    const [isLoading, setIsLoading] = useState(false);
 
     const scrollRef = useRef<HTMLDivElement>(null);
     const settingRef = useRef<HTMLDivElement>(null);
@@ -65,7 +66,7 @@ const ChatWidget = () => {
         setUnreadCount(0);
     };
 
-    const handleSendMessage = () => {
+    const handleSendMessage = async () => {
         if (!input.trim()) return;
 
         const userMsg: Message = { role: 'user', content: input };
@@ -73,12 +74,26 @@ const ChatWidget = () => {
 
         setMessages(newMessages);
         setInput('');
+        setIsLoading(true);
 
-        // Giả lập phản hồi từ AI sau 1 giây
-        setTimeout(() => {
-            const botMsg: Message = { role: 'bot', content: t('c-bot-rep') };
+        try {
+            const response = await fetch('/api/chat', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    message: input,
+                    instruction: buildSystemInstruction(data, language)
+                }),
+            });
+
+            const dataRes = await response.json();
+            const botMsg: Message = { role: 'bot', content: dataRes.reply || t('c-bot-rep') };
             setMessages(prev => [...prev, botMsg]);
-        }, 1000);
+        } catch (error) {
+            console.error("Lỗi gọi AI:", error);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     const handleClearChatHistory = () => {
