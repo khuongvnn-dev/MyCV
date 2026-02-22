@@ -6,6 +6,8 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import clsx from 'clsx';
+import LanguageSwitcher from './LanguageSwitcher';
+import { get } from 'http';
 
 const Sidebar = () => {
 
@@ -76,8 +78,13 @@ const Sidebar = () => {
       {/* Tên hiển thị trên Mobile */}
       <div className="lg:hidden w-full flex justify-between items-center text-white">
         <span className="text-xl font-bold uppercase tracking-wider">
-          {t('name')}
+          {getDataByKey(data, 'vi', 'name')}
         </span>
+
+        <div className='inline lg:hidden'>
+          <LanguageSwitcher />
+        </div>
+
         {/* Bạn có thể thêm nút Toggle Menu Mobile ở đây nếu cần */}
         <button
           onClick={() => setIsOpen(!isOpen)}
@@ -119,6 +126,10 @@ const Sidebar = () => {
             </li>
           ))}
         </ul>
+
+        <div className='lg:inline hidden'>
+          <LanguageSwitcher />
+        </div>
       </div>
     </nav>
   )
