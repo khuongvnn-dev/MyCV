@@ -10,6 +10,7 @@ import { AppDispatch, RootState } from '@/lib/store'
 import { useDispatch, useSelector } from 'react-redux'
 import Spinner from '../components/Spinner'
 import { useUserAnalytics } from '@/services/hooks/useUserAnalytics'
+import ChatWidget from '../components/ChatWidget'
 
 const PortfolioPage = () => {
 
@@ -52,6 +53,8 @@ const PortfolioPage = () => {
         <hr className="border-gray-200" /> */}
         <Projects />
       </main>
+
+      <ChatWidget />
     </div>
   )
 }
