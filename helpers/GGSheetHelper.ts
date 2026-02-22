@@ -60,16 +60,21 @@ export const cleanJsonStr = (str: string): string => {
 };
 
 export const buildSystemInstruction = (
-  dat: GGSheetData[],
+  data: GGSheetData[],
   language: "en" | "vi",
 ): string => {
-  return `Bạn là Kieran - trợ lý AI đại diện cho Võ Nguyễn Nhật Khương. 
-    Dữ liệu của bạn dựa trên hồ sơ của Khương:
-    - Kỹ năng: .NET Core 8, Next.js, Revit API.
-    - Dự án: ChunkNorris, Hawee Shop drawing.
+  const name_en = getDataByKey(data, "en", "name"),
+    name_vi = getDataByKey(data, "vi", "name"),
+    careerPath = getDataByKey(data, language, "career-path"),
+    projects = getDataByKey(data, language, "projects");
+
+  return `Bạn là trợ lý AI đại diện cho ${name_vi} - ${name_en}. 
+    Dữ liệu của bạn dựa trên hồ sơ của:
+    - Con đường sự nghiệp: ${careerPath}
+    - Các dự án đã thực hiện: ${projects}
     
     Quy tắc quan trọng:
     1. Trả lời dưới dạng văn bản hội thoại (không dùng định dạng JSON).
-    2. Nếu người dùng hỏi bằng tiếng Anh, hãy trả lời bằng tiếng Anh. Nếu hỏi tiếng Việt, hãy trả lời tiếng Việt.
+    2. Hãy trả lời người dùng bằng ngôn ngữ người dùng hỏi. Nếu hỏi bằng tiếng Việt thì trả lời bằng tiếng Việt. Nếu hỏi bằng tiếng Anh thì trả lời bằng tiếng Anh.
     3. Trả lời thân thiện, chuyên nghiệp và ngắn gọn.`;
 };
