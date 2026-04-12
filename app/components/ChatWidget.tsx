@@ -15,11 +15,14 @@ interface Message {
 const ChatWidget = () => {
     const [isOpen, setIsOpen] = useState(false); // Trạng thái mở cửa sổ chat
     const [showNotif, setShowNotif] = useState(true); // Trạng thái tin nhắn nổi
-    const [unreadCount, setUnreadCount] = useState(2); // Giả lập số tin nhắn chưa đọc
+    const [unreadCount, setUnreadCount] = useState(1); // Giả lập số tin nhắn chưa đọc
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
     const [isSettingOpen, setIsSettingOpen] = useState(false)
     const [isLoading, setIsLoading] = useState(false);
+
+    const { data, language } = useSelector((state: RootState) => state.google_sheet);
+    const t = (key: string) => getDataByKey(data, language, key);
 
     const scrollRef = useRef<HTMLDivElement>(null);
     const settingRef = useRef<HTMLDivElement>(null);
@@ -29,7 +32,7 @@ const ChatWidget = () => {
         if (savedMessages) {
             setMessages(JSON.parse(savedMessages));
         } else {
-            setMessages([{ role: 'bot', content: 'Chào Nhật Khương! Bạn cần hỗ trợ gì không?' }]);
+            setMessages([{ role: 'bot', content: t('c-welcome') }]);
         }
     }, []);
 
@@ -56,9 +59,6 @@ const ChatWidget = () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [isSettingOpen]);
-
-    const { data, language } = useSelector((state: RootState) => state.google_sheet);
-    const t = (key: string) => getDataByKey(data, language, key);
 
     const handleOpenChat = () => {
         setIsOpen(true);
@@ -207,7 +207,10 @@ const ChatWidget = () => {
                     className="bg-white p-4 rounded-xl shadow-xl border border-sky-100 cursor-pointer hover:shadow-2xl transition-shadow pr-10"
                 >
                     <p className="text-[10px] font-black text-sky-600 uppercase mb-1 tracking-widest">{t('c-notif-title')}</p>
-                    <p className="text-xs text-gray-600 leading-relaxed">Bạn có muốn xem các dự án **Revit API** mới nhất của tôi?</p>
+                    <div className='prose prose-sky text-sm text-gray-700'>
+                        <Markdown>Bạn có muốn xem các dự án **Revit API** mới nhất của tôi?</Markdown>
+                    </div>
+                    {/* <p className="text-xs text-gray-600 leading-relaxed">Bạn có muốn xem các dự án **Revit API** mới nhất của tôi?</p> */}
                 </div>
                 <button
                     onClick={(e) => { e.stopPropagation(); setShowNotif(false); }}
